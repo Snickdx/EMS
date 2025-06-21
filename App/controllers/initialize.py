@@ -2,13 +2,74 @@ import csv
 from .user import create_user
 from pathlib import Path
 from App.database import db
-from App.models import GradeStats, Course, Staff, Semester, Allocation
+import pandas as pd
+from sqlalchemy.orm.exc import NoResultFound
+from App.models import GradeStats, Course, Staff, Semester, Allocation, ElectiveType, Programme
 
 course_csv_path =  Path(__file__).parent.parent.parent / 'data' / 'courses.csv'
 grade_csv_path = Path(__file__).parent.parent.parent / 'data' / 'grades.csv'
 staff_csv_path = Path(__file__).parent.parent.parent / 'data' / 'staff.csv'
 semester_csv_path = Path(__file__).parent.parent.parent / 'data' / 'semesters.csv'
 allocation_csv_path = Path(__file__).parent.parent.parent / 'data' / 'allocations.csv'
+matrix_csv_path = Path(__file__).parent.parent.parent / 'data' / 'matrix.csv'
+
+
+
+def load_course_programme_matrix():
+    df = pd.read_csv(matrix_csv_path)
+    programme_names = df.columns[2:]
+
+    # Create/get all programme objects
+    programme_map = {}
+    for name in programme_names:
+        programme = Programme.query.filter_by(name=name).first()
+        if not programme:
+            programme = Programme(name=name)
+            db.session.add(programme)
+        programme_map[name] = programme
+    db.session.flush()
+
+    for _, row in df.iterrows():
+        code = str(row['Code']).strip()
+        prereq_text = str(row['Pre-requisites']).strip()
+
+        # Create/get course
+        course = Course.query.filter_by(id=code).first()
+        if not course:
+            print(f'Unknown course ${code}')
+            break
+
+        # Handle prerequisites
+        if prereq_text.lower() != 'none' and prereq_text.strip():
+            prereq_codes = [p.strip() for p in prereq_text.split(',') if p.strip()]
+            if prereq_codes:
+                group_id = hash(f"{code}:{','.join(prereq_codes)}") & 0x7FFFFFFF
+                prereq = Prerequisite(course_id=course.id, group_id=group_id)
+                db.session.merge(prereq)
+
+                for prereq_code in prereq_codes:
+                    prereq_course = Course.query.filter_by(code=prereq_code).first()
+                    if not prereq_course:
+                        prereq_course = Course(id=prereq_code, title=prereq_code)
+                        db.session.add(prereq_course)
+                        db.session.flush()
+                    db.session.merge(CourseGroup(course_id=prereq_course.id, group_id=group_id))
+
+        # Add programme-course links
+        for pname in programme_names:
+            raw_type = str(row[pname]).strip().upper()
+            if raw_type and raw_type != 'NONE':
+                programme = programme_map[pname]
+                pc = ProgrammeCourse(
+                    programme_id=programme.id,
+                    course_id=course.id,
+                    credits=3,  # static value; adjust if needed
+                    type=raw_type
+                )
+                db.session.merge(pc)
+
+    db.session.commit()
+
 
 def parse_semesters():
     """
@@ -104,6 +165,14 @@ def parse_allocations():
             db.session.merge(allocation)  # merge to avoid duplicates on primary key
         db.session.commit()
 
+def create_elective_types():
+
+    types = ["L1 CORE", "L1 ELECTIVE", "CORE OPTION", "Adv CORE", "CIMEM ELECTIVE", "Adv ELECTIVE", "OTHER ELECTIVE", "FOUN"]
+    for t in types:
+        elect_type = ElectiveType(t)
+        db.session.add(elect_type)
+    db.session.commit()
+
 def initialize():
     db.drop_all()
     db.create_all()
@@ -111,4 +180,6 @@ def initialize():
     parse_staff()
     parse_semesters()
     parse_allocations()
+    create_elective_types()
+    load_course_programme_matrix()
     create_user('bob', 'bobpass')

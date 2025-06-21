@@ -5,3 +5,7 @@ from .semester import *
 from .course_sem import *
 from .gradeStats import *
 from .allocation import *
+from .programme import *
+from .coursegroup import *
+from .electivetype import *
+from .prerequisite import *
