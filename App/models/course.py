@@ -1,18 +1,16 @@
 from App.database import db
 
 class Course(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    code = db.Column(db.String(20), unique=True, nullable=False)
-    title = db.Column(db.String(120), nullable=False)
+    __tablename__ = 'course'
 
-    def __init__(self, code, title):
-        self.code = code
-        self.title = title
+    id = db.Column(db.String(16), primary_key=True)
+    name = db.Column(db.String(128), nullable=False)
+    level = db.Column(db.Integer, nullable=False)
 
-    def get_json(self):
-        return {
-            'id': self.id,
-            'code': self.code,
-            'title': self.title
-        }
+    def __init__(self, code, name, level):
+        self.id = code
+        self.name = name
+        self.level = level
 
+    def __repr__(self):
+        return f"<Course(code={self.id}, name={self.name}, level={self.level})>"

@@ -1,23 +1,21 @@
 from App.database import db
 
 class Allocation(db.Model):
+    __tablename__ = 'allocation'
     id = db.Column(db.Integer, primary_key=True)
-    staff_id = db.Column(db.Integer, db.ForeignKey('staff.id'), nullable=False)
-    coursesem_id = db.Column(db.Integer, db.ForeignKey('course_sem.id'), nullable=False)
-    type = db.Column(db.String(20), nullable=False)
+    course_sem = db.Column(db.String(64), nullable=False)
+    course_code = db.Column(db.String(32), nullable=False)
+    staff = db.Column(db.String(128), nullable=False)
+    type = db.Column(db.String(32), nullable=False)
 
-    staff = db.relationship('Staff', backref=db.backref('allocations', lazy=True))
-    coursesem = db.relationship('CourseSem', backref=db.backref('allocations', lazy=True))
-
-    def __init__(self, staff_id, coursesem_id, type):
-        self.staff_id = staff_id
-        self.coursesem_id = coursesem_id
+    def __init__(self, course_sem, course_code, staff, type):
+        self.course_sem = course_sem
+        self.course_code = course_code
+        self.staff = staff
         self.type = type
 
-    def get_json(self):
-        return {
-            'id': self.id,
-            'staff_id': self.staff_id,
-            'coursesem_id': self.coursesem_id,
-            'type': self.type
-        }
+    def __repr__(self):
+        return (
+            f"<Allocation(course_sem={self.course_sem}, course_code={self.course_code}, "
+            f"staff={self.staff}, type={self.type})>"
+        )

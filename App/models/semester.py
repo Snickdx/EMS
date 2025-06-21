@@ -1,17 +1,17 @@
+from flask_sqlalchemy import SQLAlchemy
 from App.database import db
 
+
 class Semester(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    year = db.Column(db.String(9), nullable=False)
-    term = db.Column(db.String(20), nullable=False)
+    __tablename__ = 'semester'
+    id = db.Column(db.String(32), primary_key=True)
+    year = db.Column(db.String(16), nullable=False)
+    sem = db.Column(db.String(8), nullable=False)
 
-    def __init__(self, year, term):
+    def __init__(self, id, year, sem):
+        self.id = id
         self.year = year
-        self.term = term
+        self.sem = sem
 
-    def get_json(self):
-        return {
-            'id': self.id,
-            'year': self.year,
-            'term': self.term
-        }
+    def __repr__(self):
+        return f"<Semester(id={self.id}, year={self.year}, sem={self.sem})>"
