@@ -10,3 +10,4 @@ from .coursegroup import *
 from .credittype import *
 from .prerequisite import *
 from .programmecourse import *
+from .markingexpense import *

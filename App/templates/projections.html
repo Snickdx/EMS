@@ -1,0 +1,217 @@
+{% extends "layout.html" %}
+{% block title %}Projections{% endblock %}
+{% block page %}Projections{% endblock %}
+
+{% block styles %}
+    <style>
+        /* Add any additional styles here if needed */
+        .input-field{
+          margin-bottom: 0;
+        }
+    </style>
+{% endblock %}
+
+{{ super() }}
+
+{% block content %}
+<main style="padding: 0;">
+    <div class="row">
+        <!-- Input Column -->
+        <div class="col s12 m3">
+            <div >
+            <h5>Enrolment Projection</h5>
+            <form id="enrolment-form">
+                <div class="input-field">
+                <input type="number" id="cs_special" name="cs_special" min="0">
+                <label for="cs_special">CS Special</label>
+                </div>
+                <div class="input-field">
+                <input type="number" id="it_special" name="it_special" min="0">
+                <label for="it_special">IT Special</label>
+                </div>
+                <div class="input-field">
+                <input type="number" id="it_major" name="it_major" min="0">
+                <label for="it_major">IT Major</label>
+                </div>
+                <div class="input-field">
+                <input type="number" id="cs_major" name="cs_major" min="0">
+                <label for="cs_major">CS Major</label>
+                </div>
+                <div class="input-field">
+                <input type="number" id="cs_mgmt" name="cs_mgmt" min="0">
+                <label for="cs_mgmt">CS &amp; Mgmt</label>
+                </div>
+                <div class="input-field">
+                <input type="number" id="cs_minor" name="cs_minor" min="0">
+                <label for="cs_minor">CS Minor</label>
+                </div>
+                <div class="input-field">
+                <input type="number" id="it_minor" name="it_minor" min="0">
+                <label for="it_minor">IT Minor</label>
+                </div>
+                <button type="button" class="btn blue" style="width:100%;margin-bottom:10px;">Project</button>
+                <button type="button" class="btn green" style="width:100%;">Optimize</button>
+            </form>
+            </div>
+        </div>
+
+        <!-- Stats & Charts Column -->
+        <div class="col s12 m9">
+            <div class="row">
+            <!-- Card Grid: 2 rows x 3 columns -->
+            <!-- Past Year Row -->
+            <div class="col s12 m4">
+                <div class="card-panel blue lighten-1 white-text center">
+                <h6>Past Year</h6>
+                <p>Marking Expenditure</p>
+                <div>
+                    <span>Sem 1: <strong>$12,500</strong></span><br>
+                    <span>Sem 2: <strong>$13,200</strong></span>
+                </div>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="card-panel blue lighten-1 white-text center">
+                <h6>Past Year</h6>
+                <p>Staff Workload</p>
+                <div id="workload-pie" style="height:120px;"></div>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="card-panel blue lighten-1 white-text center">
+                <h6>Past Year</h6>
+                <p>Student Performance</p>
+                <div id="cohort-performance" style="height:120px;"></div>
+                <div style="font-size: 0.9em;">
+                    <span>Level 1 Aggregate Avg Grade: 78</span><br>
+                    <span>Level 2 Aggregate Avg Grade: 74</span><br>
+                    <span>Level 3 Aggregate Avg Grade: 70</span>
+                </div>
+                </div>
+            </div>
+            <!-- Projected Row -->
+            <div class="col s12 m4">
+                <div class="card-panel teal lighten-1 white-text center">
+                <h6>Projected</h6>
+                <p>Marking Expenditure</p>
+                <div>
+                    <span>Sem 1: <strong id="proj-sem1">$--</strong></span><br>
+                    <span>Sem 2: <strong id="proj-sem2">$--</strong></span>
+                </div>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="card-panel teal lighten-1 white-text center">
+                <h6>Projected</h6>
+                <p>Staff Workload</p>
+                <div id="workload-pie-proj" style="height:120px;"></div>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="card-panel teal lighten-1 white-text center">
+                <h6>Projected</h6>
+                <p>Student Performance</p>
+                <div id="cohort-performance-proj" style="height:120px;"></div>
+                <div style="font-size: 0.9em;">
+                    <span>Level 1 Aggregate Avg Grade: <span id="gpa1">--</span></span><br>
+                    <span>Level 2 Aggregate Avg Grade: <span id="gpa2">--</span></span><br>
+                    <span>Level 3 Aggregate Avg Grade: <span id="gpa3">--</span></span>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <!-- Highcharts CDN -->
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script>
+    // Past Year Staff Workload Pie (with staff names)
+    Highcharts.chart('workload-pie', {
+      chart: { type: 'pie', backgroundColor: 'transparent', height: 120 },
+      title: { text: null },
+      legend: { enabled: false },
+      plotOptions: { pie: { dataLabels: { enabled: true } } },
+      series: [{
+        name: 'Workload',
+        data: [
+          { name: 'Alana Manohar', y: 30 },
+          { name: 'Jeff Burke', y: 25 },
+          { name: 'Susan Williams', y: 20 },
+          { name: 'Larry Watters', y: 25 }
+        ]
+      }]
+    });
+
+    // Past Year Cohort Performance Bar
+    Highcharts.chart('cohort-performance', {
+      chart: { type: 'column', backgroundColor: 'transparent', height: 120 },
+      title: { text: null },
+      xAxis: { categories: ['Level 1', 'Level 2', 'Level 3'] },
+      yAxis: { min: 0, max: 100, title: { text: 'Aggregate Avg Grade' } },
+      legend: { enabled: false },
+      series: [{
+        name: 'Aggregate Avg Grade',
+        data: [78, 74, 70],
+        colorByPoint: true
+      }]
+    });
+
+    // Projected Staff Workload Pie (with staff names)
+    Highcharts.chart('workload-pie-proj', {
+      chart: { type: 'pie', backgroundColor: 'transparent', height: 120 },
+      title: { text: null },
+      legend: { enabled: false },
+      plotOptions: { pie: { dataLabels: { enabled: true } } },
+      series: [{
+        name: 'Workload',
+        data: [
+          { name: 'Alana Manohar', y: 28 },
+          { name: 'Jeff Burke', y: 32 },
+          { name: 'Susan Williams', y: 20 },
+          { name: 'Larry Watters', y: 20 }
+        ]
+      }]
+    });
+
+    // Projected Cohort Performance Bar (initially blank)
+    Highcharts.chart('cohort-performance-proj', {
+      chart: { type: 'column', backgroundColor: 'transparent', height: 120 },
+      title: { text: null },
+      xAxis: { categories: ['Level 1', 'Level 2', 'Level 3'] },
+      yAxis: { min: 0, max: 100, title: { text: 'Aggregate Avg Grade' } },
+      legend: { enabled: false },
+      series: [{
+        name: 'Aggregate Avg Grade',
+        data: [null, null, null],
+        colorByPoint: true
+      }]
+    });
+
+    // Example: update projected stats on button click
+    document.querySelector('.btn.blue').onclick = function() {
+      document.getElementById('proj-sem1').innerText = "$14,000";
+      document.getElementById('proj-sem2').innerText = "$14,800";
+      document.getElementById('gpa1').innerText = "80";
+      document.getElementById('gpa2').innerText = "76";
+      document.getElementById('gpa3').innerText = "72";
+      // Update projected cohort performance chart
+      Highcharts.chart('cohort-performance-proj', {
+        chart: { type: 'column', backgroundColor: 'transparent', height: 120 },
+        title: { text: null },
+        xAxis: { categories: ['Level 1', 'Level 2', 'Level 3'] },
+        yAxis: { min: 0, max: 100, title: { text: 'Aggregate Avg Grade' } },
+        legend: { enabled: false },
+        series: [{
+          name: 'Aggregate Avg Grade',
+          data: [80, 76, 72],
+          colorByPoint: true
+        }]
+      });
+    };
+  </script>
+{%endblock %}

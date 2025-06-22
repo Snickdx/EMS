@@ -2,7 +2,7 @@
 <html>
   <head>
   
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="/static/css/style.css"/>
      <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
@@ -13,27 +13,29 @@
     {% block styles %}{% endblock %}
   </head>
   <body>
-    
-  <nav>
-    <div class="blue nav-wrapper">
-      <a href="#!" style="padding-left: 10px;" class="brand-logo">UWI Wrokload and Instructional Support Engine (WISE)</a>
-      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="/logout">Logout</a></li>
-      </ul>
+  
+    <div class="navbar-fixed">
+      <nav>
+        <div class="blue nav-wrapper">
+          <a href="#!" style="padding-left: 10px;" class="brand-logo">UWI WISE</a>
+          <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+          <ul class="right hide-on-med-and-down">
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+        </div>
+      </nav>
     </div>
-  </nav>
 
   <!-- Static sidebar -->
   <div class="static-sidebar">
     <ul>
-      <li><a class="active" href="index.html">Home</a></li>
+      <li><a class="active" href="/dashboard">Dashboard</a></li>
       <li><a href="/project">Projections</a></li>
       <li><a href="/chat">Chat</a></li>
     </ul>
   </div>
 
-    <div class="container" id="content">{% block content %}{% endblock %}</div>
+    <div  id="content">{% block content %}{% endblock %}</div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
@@ -48,5 +50,6 @@
         {% endwith %}
        
     </script>
+    {% block scripts %}{% endblock %}
   </body>
 </html>

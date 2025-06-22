@@ -4,7 +4,7 @@ from pathlib import Path
 from App.database import db
 import pandas as pd
 from sqlalchemy.orm.exc import NoResultFound
-from App.models import GradeStats, Course, Staff, Semester, Allocation, CreditType, Programme, ProgrammeCourse, Prerequisite, CourseGroup
+from App.models import GradeStats, Course, Staff, Semester, Allocation, CreditType, Programme, ProgrammeCourse, Prerequisite, CourseGroup, MarkingExpense
 
 course_csv_path =  Path(__file__).parent.parent.parent / 'data' / 'courses.csv'
 grade_csv_path = Path(__file__).parent.parent.parent / 'data' / 'grades.csv'
@@ -12,8 +12,7 @@ staff_csv_path = Path(__file__).parent.parent.parent / 'data' / 'staff.csv'
 semester_csv_path = Path(__file__).parent.parent.parent / 'data' / 'semesters.csv'
 allocation_csv_path = Path(__file__).parent.parent.parent / 'data' / 'allocations.csv'
 matrix_csv_path = Path(__file__).parent.parent.parent / 'data' / 'matrix.csv'
-
-
+marking_csv_path = Path(__file__).parent.parent.parent / 'data' / 'marking.csv'
 
 def load_course_programme_matrix():
     df = pd.read_csv(matrix_csv_path)
@@ -69,7 +68,6 @@ def load_course_programme_matrix():
                 db.session.merge(pc)
 
     db.session.commit()
-
 
 def parse_semesters():
     """
@@ -172,7 +170,6 @@ def create_credit_types():
         db.session.add(credit_type)
     db.session.commit()
     
-
 def create_programmes():
     # Code,Pre-requisites,Bsc Information Technology (Major),Bsc Computer Science (Special),Bsc Computer Science (Major),Bsc Computer Science with Management,Bsc Computer Science (Minor),Bsc Information Technology (Special),Bsc Information Technology (Minor)
     programmes = [
@@ -242,6 +239,22 @@ def create_programme_courses():
                 db.session.merge(pc)
     db.session.commit()
 
+def parse_marking_expenses():
+    """
+    Parses the marking expenses CSV file and populates the MarkingExpense table.
+    Assumes the CSV columns are:
+    Course,Semester,Staff,Expense
+    """
+    with open(marking_csv_path, newline='', encoding='utf-8-sig') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            expense = MarkingExpense(
+                semester=row['Semester'],
+                amount=float(row['Total Marking Cost'])
+            )
+            db.session.add(expense)
+        db.session.commit()
+
 def initialize():
     db.drop_all()
     db.create_all()
@@ -252,4 +265,5 @@ def initialize():
     create_programmes()
     create_credit_types()
     create_programme_courses()
+    parse_marking_expenses()
     create_user('bob', 'bobpass')

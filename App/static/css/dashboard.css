@@ -1,75 +1,15 @@
-
-/* Static sidebar styling */
-.static-sidebar {
-  position: fixed;
-  top: 64px; /* Account for navbar height */
-  left: 0;
-  width: 200px;
-  height: calc(100vh - 64px);
-  background-color: #2196f3;
-  border-right: 1px solid #e0e0e0;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-  z-index: 100;
-  overflow-y: auto;
+main{
+    padding: 4px;
 }
 
-.static-sidebar ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+#statsRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
-.static-sidebar ul li {
-  /* Remove border separators */
-}
 
-.static-sidebar ul li a {
-  display: block;
-  padding: 15px 20px;
-  color: white;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-}
-
-.static-sidebar ul li a:hover {
-  background-color: rgba(255,255,255,0.1);
-}
-
-.static-sidebar ul li a.active {
-  background-color: rgba(255,255,255,0.2);
-  color: white;
-}
-
-/* Adjust main content to account for static sidebar */
-main {
-  margin-left: 200px;
-  padding: 20px;
-  min-height: calc(100vh - 64px);
-}
-
-/* Hide the menu trigger button since sidebar is always visible */
-.sidenav-trigger {
-  display: none !important;
-}
-
-/* Responsive adjustments for smaller screens */
-@media only screen and (max-width: 992px) {
-  main {
-    margin-left: 200px;
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  .static-sidebar {
-    display: none;
-  }
-  
-  main {
-    margin-left: 0;
-    padding: 20px;
-  }
-  
-  .sidenav-trigger {
-    display: block !important;
-  }
+.card-panel{
+    margin:0;
+    height: auto;
 }

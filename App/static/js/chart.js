@@ -30,17 +30,18 @@ window.onload = function () {
     }]
   });
 
+
   var chart2 = new CanvasJS.Chart("perfChart", {
     animationEnabled: true,
     theme: "light2",
     title: {
-      text: "Yearly Average GPA vs Semester"
+      text: "Aggregate Average Grade vs Semester"
     },
     axisY: {
-      title: "Average GPA",
-      minimum: 2.0,
-      maximum: 4.0,
-      interval: 0.5
+      title: "Aggregate Average Grade",
+      minimum: 0,
+      maximum: 100,
+      interval: 10
     },
     axisX: {
       title: "Semester"
@@ -51,16 +52,16 @@ window.onload = function () {
         name: "Year 1",
         showInLegend: true,
         dataPoints: [
-          { label: "2019-I", y: 3.1 },
-          { label: "2019-II", y: 3.0 },
-          { label: "2020-I", y: 3.2 },
-          { label: "2020-II", y: 3.1 },
-          { label: "2021-I", y: 3.0 },
-          { label: "2021-II", y: 3.2 },
-          { label: "2022-I", y: 3.3 },
-          { label: "2022-II", y: 3.2 },
-          { label: "2023-I", y: 3.3 },
-          { label: "2023-II", y: 3.4 }
+          { label: "2019-I", y: 78 },
+          { label: "2019-II", y: 75 },
+          { label: "2020-I", y: 80 },
+          { label: "2020-II", y: 77 },
+          { label: "2021-I", y: 76 },
+          { label: "2021-II", y: 79 },
+          { label: "2022-I", y: 82 },
+          { label: "2022-II", y: 80 },
+          { label: "2023-I", y: 81 },
+          { label: "2023-II", y: 84 }
         ]
       },
       {
@@ -68,16 +69,16 @@ window.onload = function () {
         name: "Year 2",
         showInLegend: true,
         dataPoints: [
-          { label: "2019-I", y: 3.0 },
-          { label: "2019-II", y: 3.0 },
-          { label: "2020-I", y: 3.0 },
-          { label: "2020-II", y: 3.0 },
-          { label: "2021-I", y: 3.0 },
-          { label: "2021-II", y: 3.0 },
-          { label: "2022-I", y: 3.0 },
-          { label: "2022-II", y: 3.0 },
-          { label: "2023-I", y: 3.0 },
-          { label: "2023-II", y: 3.0 }
+          { label: "2019-I", y: 74 },
+          { label: "2019-II", y: 74 },
+          { label: "2020-I", y: 74 },
+          { label: "2020-II", y: 74 },
+          { label: "2021-I", y: 74 },
+          { label: "2021-II", y: 74 },
+          { label: "2022-I", y: 74 },
+          { label: "2022-II", y: 74 },
+          { label: "2023-I", y: 74 },
+          { label: "2023-II", y: 74 }
         ]
       },
       {
@@ -85,16 +86,16 @@ window.onload = function () {
         name: "Year 3",
         showInLegend: true,
         dataPoints: [
-          { label: "2019-I", y: 2.9 },
-          { label: "2019-II", y: 2.8 },
-          { label: "2020-I", y: 2.7 },
-          { label: "2020-II", y: 2.6 },
-          { label: "2021-I", y: 2.5 },
-          { label: "2021-II", y: 2.4 },
-          { label: "2022-I", y: 2.3 },
-          { label: "2022-II", y: 2.2 },
-          { label: "2023-I", y: 2.1 },
-          { label: "2023-II", y: 2.0 }
+          { label: "2019-I", y: 70 },
+          { label: "2019-II", y: 68 },
+          { label: "2020-I", y: 66 },
+          { label: "2020-II", y: 64 },
+          { label: "2021-I", y: 62 },
+          { label: "2021-II", y: 60 },
+          { label: "2022-I", y: 58 },
+          { label: "2022-II", y: 56 },
+          { label: "2023-I", y: 54 },
+          { label: "2023-II", y: 52 }
         ]
       }
     ]
