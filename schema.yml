@@ -1,0 +1,65 @@
+Course:
+  id: string, primary_key
+  title: string, required
+
+Staff:
+  id: integer, primary_key
+  name: string, required
+  title: string, required
+  department: string, required
+  email: string, required
+
+Semester:
+  name: string, primary_key
+  year: string, required
+  sem: string, required
+
+Allocation:
+  id: integer, primary_key
+  course_sem: string, required
+  course_code: string, required
+  staff: string, required
+  type: string, required
+
+Programme:
+  id: string, primary_key   # Programme name as PK
+  name: string, required
+
+CreditType:
+  id: string, primary_key
+  desc: string
+
+ProgrammeCourse:
+  id: integer, primary_key
+  programme_id: string, foreign_key: Programme.id, required
+  course_id: string, foreign_key: Course.id, required
+  credits: integer
+  credit_type_id: string, foreign_key: CreditType.id
+
+Prerequisite:
+  id: integer, primary_key
+  course_id: string, foreign_key: Course.id, required
+  group_id: integer, required
+
+CourseGroup:
+  id: integer, primary_key
+  course_id: string, foreign_key: Course.id, required
+  group_id: integer, required
+
+GradeStats:
+  id: integer, primary_key
+  course: string, required
+  semester: string, required
+  enrolment: integer, required
+  mean_mark: float, required
+  median_mark: float, required
+  num_passed: integer, required
+  num_failed: integer, required
+  num_a: integer, required
+  num_f: integer, required
+  difficulty: integer, required
+
+ElectiveType:
+  id: integer, primary_key
+  name: string, required
+  desc: string

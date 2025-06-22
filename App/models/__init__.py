@@ -7,5 +7,6 @@ from .gradeStats import *
 from .allocation import *
 from .programme import *
 from .coursegroup import *
-from .electivetype import *
+from .credittype import *
 from .prerequisite import *
+from .programmecourse import *

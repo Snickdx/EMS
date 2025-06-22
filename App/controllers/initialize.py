@@ -4,7 +4,7 @@ from pathlib import Path
 from App.database import db
 import pandas as pd
 from sqlalchemy.orm.exc import NoResultFound
-from App.models import GradeStats, Course, Staff, Semester, Allocation, ElectiveType, Programme
+from App.models import GradeStats, Course, Staff, Semester, Allocation, CreditType, Programme, ProgrammeCourse, Prerequisite, CourseGroup
 
 course_csv_path =  Path(__file__).parent.parent.parent / 'data' / 'courses.csv'
 grade_csv_path = Path(__file__).parent.parent.parent / 'data' / 'grades.csv'
@@ -158,19 +158,88 @@ def parse_allocations():
         for row in reader:
             allocation = Allocation(
                 course_sem=row['course_sem'],
-                course_code=row['course_code'],
                 staff=row['Staff'],
                 type=row['type']
             )
             db.session.merge(allocation)  # merge to avoid duplicates on primary key
         db.session.commit()
 
-def create_elective_types():
+def create_credit_types():
 
-    types = ["L1 CORE", "L1 ELECTIVE", "CORE OPTION", "Adv CORE", "CIMEM ELECTIVE", "Adv ELECTIVE", "OTHER ELECTIVE", "FOUN"]
+    types = ["L1 CORE", "L1 ELECTIVE", "CORE OPTION", "ADVANCED CORE", "CIMEM ELECTIVE", "ADVANCED ELECTIVE", "OTHER ELECTIVE", "FOUN"]
     for t in types:
-        elect_type = ElectiveType(t)
-        db.session.add(elect_type)
+        credit_type = CreditType(t)
+        db.session.add(credit_type)
+    db.session.commit()
+    
+
+def create_programmes():
+    # Code,Pre-requisites,Bsc Information Technology (Major),Bsc Computer Science (Special),Bsc Computer Science (Major),Bsc Computer Science with Management,Bsc Computer Science (Minor),Bsc Information Technology (Special),Bsc Information Technology (Minor)
+    programmes = [
+        "Bsc Information Technology (Major)",
+        "Bsc Computer Science (Special)",
+        "Bsc Computer Science (Major)",
+        "Bsc Computer Science with Management",
+        "Bsc Computer Science (Minor)",
+        "Bsc Information Technology (Special)",
+        "Bsc Information Technology (Minor)"
+    ]
+    for name in programmes:
+        programme = Programme(name=name)
+        db.session.add(programme)
+    db.session.commit()
+
+def create_programme_courses():
+    """
+    Parses matrix.csv and creates ProgrammeCourse objects.
+    Assumes the CSV columns are:
+    Code,Pre-requisites,<programme names...>
+    Assumes Programmes already exist in the database.
+    """
+    import pandas as pd
+
+    df = pd.read_csv(matrix_csv_path)
+    programme_names = df.columns[2:]  # Skip 'Code' and 'Pre-requisites'
+
+    # Map programme names to Programme objects (assume already created)
+    programme_map = {name: Programme.query.filter_by(name=name).first() for name in programme_names}
+
+    for _, row in df.iterrows():
+        code = str(row['Code']).strip()
+    
+        course = Course.query.get(code)
+       
+        if not course:
+            print(f'Unknown course {code}')
+            continue  # or handle missing course
+
+        for pname in programme_names:
+
+            credit_type = str(row[pname]).strip().upper()
+            
+            if credit_type == 'NAN':
+                credit_type = 'NONE'
+            
+            if credit_type and credit_type != 'NONE':
+                programme = programme_map[pname]
+                
+                if not programme:
+                    continue  # skip if programme not found
+
+                # Find CreditType
+                credit_type_obj = CreditType.query.get(credit_type)
+                if not credit_type_obj:
+                    print(row)
+                    print(f'Unknown credit type {row[pname]} for course {code} in programme {pname}')
+                    break
+
+                pc = ProgrammeCourse(
+                    programme_id=programme.id,
+                    course_id=course.id,
+                    credits=3,  # or set dynamically if available
+                    credit_type=credit_type
+                )
+                db.session.merge(pc)
     db.session.commit()
 
 def initialize():
@@ -180,6 +249,7 @@ def initialize():
     parse_staff()
     parse_semesters()
     parse_allocations()
-    create_elective_types()
-    load_course_programme_matrix()
+    create_programmes()
+    create_credit_types()
+    create_programme_courses()
     create_user('bob', 'bobpass')
