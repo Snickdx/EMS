@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block page %}Dashboard{% endblock %}
+
+{{ super() }}
+
+{% block styles %}
+    <link rel="stylesheet" href="/static/css/dashboard.css"/>
+{% endblock %}
+
+{% block content %}
+
+
+    <main>
+      <h1>My App</h1>
+      <p>This is the main content area with a static sidebar that has no fade effects.</p>
+    </main>
+{% endblock %}

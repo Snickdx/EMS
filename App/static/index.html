@@ -64,45 +64,134 @@
   <!-- Section: Stats -->
   <section class="section section-stats center">
     <div class="row">
-      <div class="col s12 m6 l3">
+      <div class="col s12 m4">
         <div class="card-panel blue lighten-1 white-text center">
-          <i class="material-icons medium">insert_emoticon</i>
-          <h5>Monthly Visitors</h5>
-          <h3 class="count">283000</h3>
-          <div class="progress grey lighten-1">
-            <div class="determinate white" style="width: 40%;"></div>
-          </div>
+          <h5>Enrolment Distribution</h5>
+          <table class="white-text" style="background: transparent;">
+            <tbody>
+              <tr>
+                <td>CS Special</td>
+                <td><span class="count">120</span></td>
+                <td style="width: 50%;">
+                  <div class="progress grey lighten-1" style="margin:0;">
+                    <div class="determinate white" style="width: 80%;"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>IT Special</td>
+                <td><span class="count">110</span></td>
+                <td>
+                  <div class="progress grey lighten-1" style="margin:0;">
+                    <div class="determinate white" style="width: 70%;"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>IT Major</td>
+                <td><span class="count">95</span></td>
+                <td>
+                  <div class="progress grey lighten-1" style="margin:0;">
+                    <div class="determinate white" style="width: 60%;"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>CS Major</td>
+                <td><span class="count">90</span></td>
+                <td>
+                  <div class="progress grey lighten-1" style="margin:0;">
+                    <div class="determinate white" style="width: 55%;"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>CS &amp; Mgmt</td>
+                <td><span class="count">60</span></td>
+                <td>
+                  <div class="progress grey lighten-1" style="margin:0;">
+                    <div class="determinate white" style="width: 35%;"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>CS Minor</td>
+                <td><span class="count">40</span></td>
+                <td>
+                  <div class="progress grey lighten-1" style="margin:0;">
+                    <div class="determinate white" style="width: 20%;"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>IT Minor</td>
+                <td><span class="count">30</span></td>
+                <td>
+                  <div class="progress grey lighten-1" style="margin:0;">
+                    <div class="determinate white" style="width: 15%;"></div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-      <div class="col s12 m6 l3">
-        <div class="card-panel center">
-          <i class="material-icons medium">mode_edit</i>
-          <h5>Blog Posts</h5>
-          <h3 class="count">105</h3>
-          <div class="progress grey lighten-1">
-            <div class="determinate blue" style="width: 20%;"></div>
-          </div>
+
+      <div class="col s12 m4">
+      
+        <div style="padding:5px; margin-top:0;"  class="card-panel blue lighten-1 white-text center">
+          <h5>Year Distribution</h5>
+          <table class="white-text" style="background: transparent;">
+            <tbody>
+              <tr>
+                <td>Year 1</td>
+                <td><span class="count">180</span></td>
+                <td style="width: 50%;">
+                  <div class="progress grey lighten-1" style="margin:0;">
+                    <div class="determinate white" style="width: 45%;"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Year 2</td>
+                <td><span class="count">140</span></td>
+                <td>
+                  <div class="progress grey lighten-1" style="margin:0;">
+                    <div class="determinate white" style="width: 35%;"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Year 3</td>
+                <td><span class="count">120</span></td>
+                <td>
+                  <div class="progress grey lighten-1" style="margin:0;">
+                    <div class="determinate white" style="width: 30%;"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Year 4+</td>
+                <td><span class="count">105</span></td>
+                <td>
+                  <div class="progress grey lighten-1" style="margin:0;">
+                    <div class="determinate white" style="width: 26%;"></div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </div>
-      <div class="col s12 m6 l3">
-        <div class="card-panel blue lighten-1 white-text center">
-          <i class="material-icons medium">mode_comment</i>
-          <h5>Comments</h5>
-          <h3 class="count">1200</h3>
-          <div class="progress grey lighten-1">
-            <div class="determinate white" style="width: 40%;"></div>
-          </div>
-        </div>
-      </div>
-      <div class="col s12 m6 l3">
-        <div class="card-panel center">
+       
+        <div  style="padding:2px" class="card-panel blue lighten-1 white-text center">
           <i class="material-icons medium">supervisor_account</i>
-          <h5>Users</h5>
-          <h3 class="count">350</h3>
-          <div class="progress grey lighten-1">
-            <div class="determinate blue lighten-1" style="width: 10%;"></div>
-          </div>
+          <h5>Total Students</h5>
+          <h3 class="count">545</h3>
         </div>
+      </div>
+
+      <div class="col s12 m4">
+        <div id="perfChart" style="height: 300px; width: 100%;"></div>
       </div>
     </div>
   </section>
@@ -110,117 +199,107 @@
   <!-- Section: Visitor -->
   <section class="section section-visitors blue lighten-4">
     <div class="row">
-      <div class="col s12 m6 l8">
+      <div class="col s12 m6">
         <div class="card-panel">
-          <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+          <div id="chartContainer" style="height: 470px; width: 100%;"></div>
         </div>
       </div>
-      <div class="col s12 m6 l4">
-        <!-- Latest Comments  -->
-        <ul class="collection with-header latest-comments">
-          <li class="collection-header">
-            <h5>Latest Comments</h5>
-          </li>
-          <li class="collection-item avatar">
-            <img src="img/person1.jpg" alt="" class="circle">
-            <span class="title">John Doe</span>
-            <p class="truncate">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum veritatis dicta
-              voluptatem soluta, corporis impedit est similique culpa doloribus doloremque quasi repudiandae? Animi
-              dolorum nemo consequatur illo provident enim alias!</p>
-            <a href="" class="approve green-text">Approve</a>
-            <a href="" class="deny red-text">Deny</a>
-          </li>
-          <li class="collection-item avatar">
-            <img src="img/person2.jpg" alt="" class="circle">
-            <span class="title">Steve Smith</span>
-            <p class="truncate">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum veritatis dicta
-              voluptatem soluta, corporis impedit est similique culpa doloribus doloremque quasi repudiandae? Animi
-              dolorum nemo consequatur illo provident enim alias!</p>
-            <a href="" class="approve green-text">Approve</a>
-            <a href="" class="deny red-text">Deny</a>
-          </li>
-          <li class="collection-item avatar">
-            <img src="img/person3.jpg" alt="" class="circle">
-            <span class="title">Ellen Williams</span>
-            <p class="truncate">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum veritatis dicta
-              voluptatem soluta, corporis impedit est similique culpa doloribus doloremque quasi repudiandae? Animi
-              dolorum nemo consequatur illo provident enim alias!</p>
-            <a href="" class="approve green-text">Approve</a>
-            <a href="" class="deny red-text">Deny</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section: Recent Posts & Todos -->
-  <section class="section section-recent">
-    <div class="row">
-      <div class="col s12 l8 m6">
+      
+      <div class="col s12 m6">
         <div class="card">
           <div class="card-content">
-            <span class="card-title">Recent Posts</span>
+            <span class="card-title">Allocations</span>
             <table class="striped">
               <thead>
                 <tr>
-                  <th>Title</th>
-                  <th>Category</th>
+                  <th></th>
+                  <th>Staff Name</th>
+                  <th>Course</th>
+                  <th>Semester</th>
+                  <th>Type</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Post One</td>
-                  <td>Web Development</td>
-                  <td>
-                    <a href="details.html" class="btn blue lighten-2">Details</a>
+                  <td width="70">
+                    <img src="img/person1.jpg" alt="" class="responsive-img circle" style="width: 40px;margin-left: 10px;">
                   </td>
+                  <td>Alana Manohar</td>
+                  <td>COMP 1604</td>
+                  <td>2023/2024-II</td>
+                  <td>Tutor</td>
+                  <td><a href="details.html" class="btn blue lighten-2">Details</a></td>
                 </tr>
                 <tr>
-                  <td>Post Two</td>
-                  <td>Graphic Design</td>
-                  <td>
-                    <a href="details.html" class="btn blue lighten-2">Details</a>
+                  <td width="70">
+                    <img src="img/person2.jpg" alt="" class="responsive-img circle" style="width: 40px;margin-left: 10px;">
                   </td>
+                  <td>Jeff Burke</td>
+                  <td>COMP 1601</td>
+                  <td>2023/2024-I</td>
+                  <td>Lecturer</td>
+                  <td><a href="details.html" class="btn blue lighten-2">Details</a></td>
                 </tr>
                 <tr>
-                  <td>Post Three</td>
-                  <td>Web Development</td>
-                  <td>
-                    <a href="details.html" class="btn blue lighten-2">Details</a>
+                  <td width="70">
+                    <img src="img/person3.jpg" alt="" class="responsive-img circle" style="width: 40px;margin-left: 10px;">
                   </td>
+                  <td>Susan Williams</td>
+                  <td>COMP 2602</td>
+                  <td>2022/2023-II</td>
+                  <td>Lab Assistant</td>
+                  <td><a href="details.html" class="btn blue lighten-2">Details</a></td>
+                </tr>
+                <tr>
+                  <td width="70">
+                    <img src="img/person4.jpg" alt="" class="responsive-img circle" style="width: 40px;margin-left: 10px;">
+                  </td>
+                  <td>Larry Watters</td>
+                  <td>COMP 3601</td>
+                  <td>2022/2023-I</td>
+                  <td>Tutor</td>
+                  <td><a href="details.html" class="btn blue lighten-2">Details</a></td>
                 </tr>
               </tbody>
             </table>
           </div>
-        </div>
-      </div>
-      <div class="col s12 m6 l4">
-        <div class="card">
-          <div class="card-content">
-            <span class="card-title">Quick Todos</span>
-            <form action="" id="todo-form">
-              <div class="input-field">
-                <input type="text" id="todo" placeholder="Add Todo...">
-              </div>
-            </form>
-            <ul class="collection todos">
-              <li class="collection-item">
-                <div>Todo One <a href="#" class="secondary-content delete">
-                    <i class="material-icons">close</i>
-                  </a></div>
+          <div class="card-action">
+            <ul class="pagination">
+              <li class="disabled">
+                <a href="#!" class="blue-text">
+                  <i class="material-icons">chevron_left</i>
+                </a>
               </li>
-              <li class="collection-item">
-                <div>Todo Two <a href="#" class="secondary-content delete">
-                    <i class="material-icons">close</i>
-                  </a></div>
+              <li class="active blue lighten-2">
+                <a href="#!" class="white-text">1</a>
+              </li>
+              <li class="waves-effect">
+                <a href="#!" class="blue-text">2</a>
+              </li>
+              <li class="waves-effect">
+                <a href="#!" class="blue-text">3</a>
+              </li>
+              <li class="waves-effect">
+                <a href="#!" class="blue-text">4</a>
+              </li>
+              <li class="waves-effect">
+                <a href="#!" class="blue-text">5</a>
+              </li>
+              <li class="waves-effect">
+                <a href="#!" class="blue-text">
+                  <i class="material-icons">chevron_right</i>
+                </a>
               </li>
             </ul>
           </div>
         </div>
-      </div>
+
+
     </div>
   </section>
+
+
 
   <!-- Footer -->
   <footer class="section blue darken-2 white-text center">
