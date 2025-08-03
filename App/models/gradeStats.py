@@ -17,6 +17,9 @@ class GradeStats(db.Model):
     num_f = db.Column(db.Integer, nullable=False)
     difficulty = db.Column(db.Integer, nullable=False)
 
+    course = db.relationship('Course', back_populates='grade_stats')
+
+
     def __init__(
         self, course, semester, enrolment, mean_mark, median_mark,
         num_passed, num_failed, num_a, num_f, difficulty

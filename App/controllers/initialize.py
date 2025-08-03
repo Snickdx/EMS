@@ -155,8 +155,9 @@ def parse_allocations():
         reader = csv.DictReader(csvfile)
         for row in reader:
             allocation = Allocation(
-                course_sem=row['course_sem'],
-                staff=row['Staff'],
+                semester_id=row['semester'],
+                course_id=row['course_code'],
+                staff=row['staff'],
                 type=row['type']
             )
             db.session.merge(allocation)  # merge to avoid duplicates on primary key

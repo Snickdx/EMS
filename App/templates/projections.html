@@ -48,6 +48,16 @@
                 <div class="input-field">
                 <input type="number" id="it_minor" name="it_minor" min="0">
                 <label for="it_minor">IT Minor</label>
+                <div id="optimize-spinner" style="display:none;justify-content:center;align-items:center;height:60px;">
+                <div class="preloader-wrapper active" style="width:40px;height:40px;">
+                  <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left"><div class="circle"></div></div>
+                    <div class="gap-patch"><div class="circle"></div></div>
+                    <div class="circle-clipper right"><div class="circle"></div></div>
+                  </div>
+                </div>
+                <span style="margin-left:10px;">Optimizing...</span>
+              </div>
                 </div>
                 <button type="button" class="btn blue" style="width:100%;margin-bottom:10px;">Project</button>
                 <button type="button" class="btn green" style="width:100%;">Optimize</button>
@@ -139,7 +149,7 @@
       series: [{
         name: 'Workload',
         data: [
-          { name: 'Alana Manohar', y: 30 },
+          { name: 'Alana Mano', y: 30 },
           { name: 'Jeff Burke', y: 25 },
           { name: 'Susan Williams', y: 20 },
           { name: 'Larry Watters', y: 25 }
@@ -162,7 +172,7 @@
     });
 
     // Projected Staff Workload Pie (with staff names)
-    Highcharts.chart('workload-pie-proj', {
+    let projWorkloadChart = Highcharts.chart('workload-pie-proj', {
       chart: { type: 'pie', backgroundColor: 'transparent', height: 120 },
       title: { text: null },
       legend: { enabled: false },
@@ -170,10 +180,7 @@
       series: [{
         name: 'Workload',
         data: [
-          { name: 'Alana Manohar', y: 28 },
-          { name: 'Jeff Burke', y: 32 },
-          { name: 'Susan Williams', y: 20 },
-          { name: 'Larry Watters', y: 20 }
+
         ]
       }]
     });
@@ -192,26 +199,122 @@
       }]
     });
 
-    // Example: update projected stats on button click
-    document.querySelector('.btn.blue').onclick = function() {
-      document.getElementById('proj-sem1').innerText = "$14,000";
-      document.getElementById('proj-sem2').innerText = "$14,800";
-      document.getElementById('gpa1').innerText = "80";
-      document.getElementById('gpa2').innerText = "76";
-      document.getElementById('gpa3').innerText = "72";
-      // Update projected cohort performance chart
-      Highcharts.chart('cohort-performance-proj', {
-        chart: { type: 'column', backgroundColor: 'transparent', height: 120 },
-        title: { text: null },
-        xAxis: { categories: ['Level 1', 'Level 2', 'Level 3'] },
-        yAxis: { min: 0, max: 100, title: { text: 'Aggregate Avg Grade' } },
-        legend: { enabled: false },
-        series: [{
-          name: 'Aggregate Avg Grade',
-          data: [80, 76, 72],
-          colorByPoint: true
-        }]
-      });
-    };
+ // Helper to show/hide form fields and spinner
+  function toggleFormFields(showFields) {
+    const form = document.getElementById('enrolment-form');
+    const fields = form.querySelectorAll('.input-field, .btn.blue');
+    const spinner = document.getElementById('optimize-spinner');
+    fields.forEach(f => f.style.display = showFields ? '' : 'none');
+    if (spinner) spinner.style.display = showFields ? 'none' : 'flex';
+  }
+
+  // Add spinner to the form (hidden by default)
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('enrolment-form');
+    if (!document.getElementById('optimize-spinner')) {
+      const spinnerDiv = document.createElement('div');
+      spinnerDiv.id = 'optimize-spinner';
+      spinnerDiv.style.display = 'none';
+      spinnerDiv.style.justifyContent = 'center';
+      spinnerDiv.style.alignItems = 'center';
+      spinnerDiv.style.height = '60px';
+      spinnerDiv.innerHTML = `
+        <div class="preloader-wrapper active" style="width:40px;height:40px;">
+          <div class="spinner-layer spinner-blue-only">
+            <div class="circle-clipper left"><div class="circle"></div></div>
+            <div class="gap-patch"><div class="circle"></div></div>
+            <div class="circle-clipper right"><div class="circle"></div></div>
+          </div>
+        </div>
+        <span style="margin-left:10px;">Optimizing...</span>
+      `;
+      form.appendChild(spinnerDiv);
+    }
+  });
+
+  // Project button (already implemented)
+  document.querySelector('.btn.blue').onclick = function() {
+    document.getElementById('proj-sem1').innerText = "$14,000";
+    document.getElementById('proj-sem2').innerText = "$14,800";
+    document.getElementById('gpa1').innerText = "80";
+    document.getElementById('gpa2').innerText = "76";
+    document.getElementById('gpa3').innerText = "72";
+    Highcharts.chart('cohort-performance-proj', {
+      chart: { type: 'column', backgroundColor: 'transparent', height: 120 },
+      title: { text: null },
+      xAxis: { categories: ['Level 1', 'Level 2', 'Level 3'] },
+      yAxis: { min: 0, max: 100, title: { text: 'Aggregate Avg Grade' } },
+      legend: { enabled: false },
+      series: [{
+        name: 'Aggregate Avg Grade',
+        data: [80, 76, 72],
+        colorByPoint: true
+      }]
+    });
+    projWorkloadChart.update({
+      series: [{
+        name: 'Workload',
+        data: [
+          { name: 'Alana Mano', y: 28 },
+          { name: 'Jeff Burke', y: 32 },
+          { name: 'Susan Williams', y: 20 },
+          { name: 'Larry Watters', y: 20 }
+        ]
+      }]
+    }, true, true, false);
+  };
+
+document.querySelector('.btn.green').onclick = function() {
+  // Hide fields and show spinner
+  toggleFormFields(false);
+
+  // Simulate optimization delay
+  setTimeout(function() {
+    // Auto-populate fields with optimized values
+    document.getElementById('cs_special').value = 135;
+    document.getElementById('it_special').value = 120;
+    document.getElementById('it_major').value = 110;
+    document.getElementById('cs_major').value = 105;
+    document.getElementById('cs_mgmt').value = 70;
+    document.getElementById('cs_minor').value = 55;
+    document.getElementById('it_minor').value = 45;
+
+    // Update input labels (Materialize requirement)
+    M.updateTextFields();
+
+    // Update projected figures with "better" values
+    document.getElementById('proj-sem1').innerText = "$13,200";
+    document.getElementById('proj-sem2').innerText = "$13,900";
+    document.getElementById('gpa1').innerText = "85";
+    document.getElementById('gpa2').innerText = "80";
+    document.getElementById('gpa3').innerText = "77";
+    Highcharts.chart('cohort-performance-proj', {
+      chart: { type: 'column', backgroundColor: 'transparent', height: 120 },
+      title: { text: null },
+      xAxis: { categories: ['Level 1', 'Level 2', 'Level 3'] },
+      yAxis: { min: 0, max: 100, title: { text: 'Aggregate Avg Grade' } },
+      legend: { enabled: false },
+      series: [{
+        name: 'Aggregate Avg Grade',
+        data: [85, 80, 77],
+        colorByPoint: true
+      }]
+    });
+    projWorkloadChart.update({
+      series: [{
+        name: 'Workload',
+        data: [
+          { name: 'Alana Mano', y: 25 },
+          { name: 'Jeff Burke', y: 28 },
+          { name: 'Susan Williams', y: 22 },
+          { name: 'Larry Watters', y: 25 }
+        ]
+      }]
+    }, true, true, false);
+
+    // Show fields and hide spinner
+    toggleFormFields(true);
+  }, 1200); // 1.2s spinner delay
+};
   </script>
 {%endblock %}

@@ -23,6 +23,15 @@ def init():
 User Commands
 '''
 
+
+@app.cli.command("get-dist", help="get workload distribution")
+@click.argument("semester_id", default="2024/2025-II")
+def get_work_distribution_command(semester_id):
+    from App.controllers.allocations import get_work_distribution
+    distribution = get_work_distribution(semester_id)
+    for entry in distribution:
+        print(f"{entry['staff_member']}: {entry['total_hours']} hours")
+
 # Commands can be organized using groups
 
 # create a group, it would be the first argument of the comand
@@ -48,6 +57,8 @@ def list_user_command(format):
         print(get_all_users_json())
 
 app.cli.add_command(user_cli) # add the group to the cli
+
+
 
 '''
 Test Commands

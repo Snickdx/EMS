@@ -16,22 +16,7 @@
       <div class="col s12" style="height: 100%; padding: 0; margin-top: 0;">
         <div class="card" style="height: 100%; display: flex; flex-direction: column; margin-top: 0;">
           <div id="chat-window" style="flex: 1 1 auto; overflow-y: auto; padding: 16px; background: #f5f5f5;">
-            <!-- Example chat bubbles -->
-            <div style="display: flex; margin-bottom: 10px;">
-              <div style="background: #e3f2fd; color: #1565c0; border-radius: 16px 16px 16px 4px; padding: 10px 16px; max-width: 70%;">
-                Hi! How can I help you today?
-              </div>
-            </div>
-            <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
-              <div style="background: #1565c0; color: #fff; border-radius: 16px 16px 4px 16px; padding: 10px 16px; max-width: 70%;">
-                I have a question about my course allocation.
-              </div>
-            </div>
-            <div style="display: flex; margin-bottom: 10px;">
-              <div style="background: #e3f2fd; color: #1565c0; border-radius: 16px 16px 16px 4px; padding: 10px 16px; max-width: 70%;">
-                Sure! Please provide your course code.
-              </div>
-            </div>
+         
           </div>
           <div class="card-action" style="flex-shrink: 0; padding: 8px 16px; margin-top: auto;">
             <form id="chat-form" style="display: flex; align-items: center; margin: 0;">
@@ -43,4 +28,126 @@
       </div>
     </div>
 </main>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+  // Scroll to bottom on load
+  var chatWindow = document.getElementById('chat-window');
+  if (chatWindow) chatWindow.scrollTop = chatWindow.scrollHeight;
+
+  // document.getElementById('chat-form').onsubmit = async function(e) {
+  //   e.preventDefault();
+  //   var input = document.getElementById('chat-input');
+  //   var msg = input.value.trim();
+  //   if (!msg) return;
+
+  //   // User bubble
+  //   var userBubble = document.createElement('div');
+  //   userBubble.style.display = 'flex';
+  //   userBubble.style.justifyContent = 'flex-end';
+  //   userBubble.style.marginBottom = '10px';
+  //   userBubble.innerHTML = '<div style="background: #1565c0; color: #fff; border-radius: 16px 16px 4px 16px; padding: 10px 16px; max-width: 70%;">' + msg + '</div>';
+  //   chatWindow.appendChild(userBubble);
+  //   chatWindow.scrollTop = chatWindow.scrollHeight;
+
+  //   input.value = '';
+
+  //   // Show loading bubble
+  //   var loadingBubble = document.createElement('div');
+  //   loadingBubble.style.display = 'flex';
+  //   loadingBubble.style.marginBottom = '10px';
+  //   loadingBubble.innerHTML = '<div style="background: #e3f2fd; color: #1565c0; border-radius: 16px 16px 16px 4px; padding: 10px 16px; max-width: 70%;">Typing...</div>';
+  //   chatWindow.appendChild(loadingBubble);
+  //   chatWindow.scrollTop = chatWindow.scrollHeight;
+
+  //   // Call your backend endpoint that wraps the OpenAI API (no history)
+  //   try {
+  //     const response = await fetch('/chat', {
+  //       method: 'POST',
+  //       headers: {'Content-Type': 'application/json'},
+  //       body: JSON.stringify({messages: [
+  //         {role: "system", content: "You are a helpful assistant."},
+  //         {role: "user", content: msg}
+  //       ]})
+  //     });
+  //     const data = await response.json();
+  //     const aiMsg = data.reply || "Sorry, I couldn't get a response.";
+
+  //     // Remove loading bubble
+  //     chatWindow.removeChild(loadingBubble);
+
+  //     // Show AI response
+  //     var aiBubble = document.createElement('div');
+  //     aiBubble.style.display = 'flex';
+  //     aiBubble.style.marginBottom = '10px';
+  //     aiBubble.innerHTML = '<div style="background: #e3f2fd; color: #1565c0; border-radius: 16px 16px 16px 4px; padding: 10px 16px; max-width: 70%;">' + aiMsg + '</div>';
+  //     chatWindow.appendChild(aiBubble);
+  //     chatWindow.scrollTop = chatWindow.scrollHeight;
+  //   } catch (err) {
+  //     chatWindow.removeChild(loadingBubble);
+  //     var errorBubble = document.createElement('div');
+  //     errorBubble.style.display = 'flex';
+  //     errorBubble.style.marginBottom = '10px';
+  //     errorBubble.innerHTML = '<div style="background: #ffcdd2; color: #b71c1c; border-radius: 16px 16px 16px 4px; padding: 10px 16px; max-width: 70%;">Error contacting OpenAI API.</div>';
+  //     chatWindow.appendChild(errorBubble);
+  //     chatWindow.scrollTop = chatWindow.scrollHeight;
+  //   }
+  // };
+
+  document.getElementById('chat-form').onsubmit = function(e) {
+  e.preventDefault();
+  var input = document.getElementById('chat-input');
+  var msg = input.value.trim();
+  if (!msg) return;
+
+  // User bubble
+  var userBubble = document.createElement('div');
+  userBubble.style.display = 'flex';
+  userBubble.style.justifyContent = 'flex-end';
+  userBubble.style.marginBottom = '10px';
+  userBubble.innerHTML = '<div style="background: #1565c0; color: #fff; border-radius: 16px 16px 4px 16px; padding: 10px 16px; max-width: 70%;">' + msg + '</div>';
+  chatWindow.appendChild(userBubble);
+  chatWindow.scrollTop = chatWindow.scrollHeight;
+
+  input.value = '';
+
+  // Show loading bubble
+  var loadingBubble = document.createElement('div');
+  loadingBubble.style.display = 'flex';
+  loadingBubble.style.marginBottom = '10px';
+  loadingBubble.innerHTML = '<div style="background: #e3f2fd; color: #1565c0; border-radius: 16px 16px 16px 4px; padding: 10px 16px; max-width: 70%;">Typing...</div>';
+  chatWindow.appendChild(loadingBubble);
+  chatWindow.scrollTop = chatWindow.scrollHeight;
+
+  // Simulate delay and reply with a believable RAG-style response
+  setTimeout(function() {
+    chatWindow.removeChild(loadingBubble);
+
+    // Example: If the user asks about COMP1601 enrolment
+    let aiMsg;
+    if (/comp1601/i.test(msg) && /enrol/i.test(msg)) {
+      aiMsg = "According to the latest data, COMP1601 (Intro to Programming) has an enrolment of 120 students for semester 2023/2024-II.";
+    } else if (/average grade|avg grade/i.test(msg) && /comp2603/i.test(msg)) {
+      aiMsg = "The average grade for COMP2603 (Databases) is 68.";
+    } else if (/who teaches|lecturer|instructor/i.test(msg) && /comp1602/i.test(msg)) {
+      aiMsg = "COMP1602 (Data Structures) is taught by Dr. Jones.";
+    } else if (/list.*staff/i.test(msg)) {
+      aiMsg = "The staff for this semester are Dr. Smith, Dr. Jones, Dr. Lee, and Ms. Brown (TA).";
+    } else if (/enrol/i.test(msg)) {
+      aiMsg = "Here are some recent enrolment numbers: COMP1601 - 120, COMP1602 - 100, COMP2603 - 80.";
+    } else {
+      aiMsg = "I'm a course assistant with access to enrolment and grade data. Try asking about a specific course, staff member, or average grade!";
+    }
+
+    var aiBubble = document.createElement('div');
+    aiBubble.style.display = 'flex';
+    aiBubble.style.marginBottom = '10px';
+    aiBubble.innerHTML = '<div style="background: #e3f2fd; color: #1565c0; border-radius: 16px 16px 16px 4px; padding: 10px 16px; max-width: 70%;">' + aiMsg + '</div>';
+    chatWindow.appendChild(aiBubble);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  }, 900); // 900ms delay for realism
+};
+</script>
 {% endblock %}
